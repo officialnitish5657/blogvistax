@@ -2,6 +2,9 @@ import { useQuery } from "@tanstack/react-query";
 import { useParams, Link } from "wouter";
 import { ArrowLeft, Calendar, Tag, User, Loader2 } from "lucide-react";
 import type { Blog } from "@shared/schema";
+import { useEffect } from "react";
+import { updatePageSEO, generateStructuredData } from "@/utils/seo";
+import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 
 export default function BlogDetail() {
   const { id } = useParams<{ id: string }>();
@@ -10,6 +13,47 @@ export default function BlogDetail() {
     queryKey: [`/api/blogs/${id}`],
     enabled: !!id,
   });
+
+  // Update SEO when blog data is loaded
+  useEffect(() => {
+    if (blog) {
+      const blogUrl = `${window.location.origin}/blog/${blog.id}`;
+      
+      // Generate rich keywords from content
+      const contentKeywords = blog.content
+        .toLowerCase()
+        .match(/\b\w+\b/g)
+        ?.filter(word => word.length > 4)
+        .slice(0, 10)
+        .join(', ') || '';
+      
+      const keywords = `${blog.category.toLowerCase()}, ${blog.title.toLowerCase()}, ${contentKeywords}, technology blog, expert insights`;
+
+      updatePageSEO({
+        title: `${blog.title} | TechBlog`,
+        description: blog.excerpt,
+        keywords: keywords,
+        type: 'article',
+        author: 'TechBlog Team',
+        publishedDate: blog.createdAt ? new Date(blog.createdAt).toISOString() : undefined,
+        modifiedDate: blog.updatedAt ? new Date(blog.updatedAt).toISOString() : undefined,
+        category: blog.category,
+        image: blog.imageUrl || undefined,
+        url: blogUrl
+      });
+
+      // Generate structured data for the blog post
+      generateStructuredData('BlogPosting', {
+        title: blog.title,
+        excerpt: blog.excerpt,
+        imageUrl: blog.imageUrl,
+        createdAt: blog.createdAt ? new Date(blog.createdAt).toISOString() : undefined,
+        updatedAt: blog.updatedAt ? new Date(blog.updatedAt).toISOString() : undefined,
+        category: blog.category,
+        keywords: keywords
+      });
+    }
+  }, [blog]);
 
   const formatDate = (date: Date | null) => {
     if (!date) return "No date";

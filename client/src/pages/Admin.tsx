@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { updatePageSEO } from "@/utils/seo";
 import { Plus, Edit, Trash2, FileText, CheckCircle, Edit3, Eye, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -30,6 +31,16 @@ export default function Admin() {
   const { data: blogs, isLoading } = useQuery<Blog[]>({
     queryKey: ["/api/blogs"],
   });
+
+  useEffect(() => {
+    updatePageSEO({
+      title: 'Admin Dashboard | TechBlog',
+      description: 'Administrative access for TechBlog content management. This page is restricted to authorized personnel only.',
+      keywords: 'admin, dashboard, content management, restricted access',
+      type: 'website',
+      url: `${window.location.origin}/admin`
+    });
+  }, []);
 
   const createBlogMutation = useMutation({
     mutationFn: (data: InsertBlog) => apiRequest("POST", "/api/blogs", data),

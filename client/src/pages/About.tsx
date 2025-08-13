@@ -1,6 +1,18 @@
 import { Lightbulb, Users, Target } from "lucide-react";
+import { useEffect } from "react";
+import { updatePageSEO } from "@/utils/seo";
 
 export default function About() {
+  useEffect(() => {
+    updatePageSEO({
+      title: 'About Us - Mission & Vision | TechBlog',
+      description: 'Learn about TechBlog\'s mission to democratize technology knowledge and empower professionals with actionable insights, expert analysis, and cutting-edge industry trends.',
+      keywords: 'about techblog, company mission, technology education, expert insights, industry knowledge, professional development',
+      type: 'website',
+      url: `${window.location.origin}/about`
+    });
+  }, []);
+
   return (
     <section className="py-20 bg-white min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

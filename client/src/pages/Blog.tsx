@@ -2,11 +2,23 @@ import { useQuery } from "@tanstack/react-query";
 import BlogCard from "@/components/blog/BlogCard";
 import { Loader2 } from "lucide-react";
 import type { Blog } from "@shared/schema";
+import { useEffect } from "react";
+import { updatePageSEO } from "@/utils/seo";
 
 export default function Blog() {
   const { data: blogs, isLoading } = useQuery<Blog[]>({
     queryKey: ["/api/blogs?published=true"],
   });
+
+  useEffect(() => {
+    updatePageSEO({
+      title: 'Blog - Expert Insights on Technology & Innovation | TechBlog',
+      description: 'Explore our comprehensive collection of expert articles on technology, AI, development, business strategy, and innovation. Stay ahead with actionable insights from industry leaders.',
+      keywords: 'technology blog, expert articles, AI insights, development tutorials, business strategy, innovation, tech trends, industry analysis',
+      type: 'website',
+      url: `${window.location.origin}/blog`
+    });
+  }, []);
 
   return (
     <section className="py-20 bg-slate-50 min-h-screen">

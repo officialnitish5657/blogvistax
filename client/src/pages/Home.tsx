@@ -3,6 +3,8 @@ import BlogCard from "@/components/blog/BlogCard";
 import { Link } from "wouter";
 import { Loader2 } from "lucide-react";
 import type { Blog } from "@shared/schema";
+import { useEffect } from "react";
+import { updatePageSEO, generateStructuredData } from "@/utils/seo";
 
 export default function Home() {
   const { data: blogs, isLoading } = useQuery<Blog[]>({
@@ -10,6 +12,20 @@ export default function Home() {
   });
 
   const latestBlogs = blogs?.slice(0, 3) || [];
+
+  useEffect(() => {
+    // Update SEO for Home page
+    updatePageSEO({
+      title: 'TechBlog - Modern Insights on Technology & Innovation',
+      description: 'Discover cutting-edge insights on technology, strategy, and innovation. Expert articles on AI, development, leadership, and emerging trends that transform businesses.',
+      keywords: 'technology blog, business insights, innovation, AI, development, strategy, leadership, tech trends, digital transformation',
+      type: 'website',
+      url: `${window.location.origin}/`
+    });
+
+    // Generate structured data for website
+    generateStructuredData('WebSite', {});
+  }, []);
 
   const scrollToBlogs = () => {
     const blogsSection = document.getElementById("latest-blogs");

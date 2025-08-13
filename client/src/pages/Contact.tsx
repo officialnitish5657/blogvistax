@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MapPin, Phone, Mail, Twitter, Linkedin, Github, Rss } from "lucide-react";
+import { updatePageSEO } from "@/utils/seo";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -15,6 +16,16 @@ export default function Contact() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
+
+  useEffect(() => {
+    updatePageSEO({
+      title: 'Contact Us - Get in Touch | TechBlog',
+      description: 'Connect with TechBlog team for partnerships, content collaboration, speaking opportunities, or general inquiries. We\'d love to hear from you and explore ways to work together.',
+      keywords: 'contact techblog, get in touch, partnerships, collaboration, speaking opportunities, business inquiries',
+      type: 'website',
+      url: `${window.location.origin}/contact`
+    });
+  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
