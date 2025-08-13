@@ -14,12 +14,27 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { useEffect } from "react";
 import { useLocation } from "wouter";
+import NProgress from "nprogress";
 
 function ScrollToTop() {
   const [location] = useLocation();
   
   useEffect(() => {
+    // Start progress bar
+    NProgress.start();
+    
+    // Simulate route loading and scroll to top
     window.scrollTo({ top: 0, behavior: "smooth" });
+    
+    // Complete progress bar after a short delay to simulate page loading
+    const timer = setTimeout(() => {
+      NProgress.done();
+    }, 300);
+    
+    return () => {
+      clearTimeout(timer);
+      NProgress.done();
+    };
   }, [location]);
   
   return null;

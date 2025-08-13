@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import 'nprogress/nprogress.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -135,4 +136,21 @@
 .prose li::before {
   content: "•";
   @apply absolute -left-4 text-primary font-bold;
+}
+
+/* NProgress Loading Bar Customization */
+#nprogress .bar {
+  background: hsl(213.1 90.5% 56.1%) !important;
+  height: 3px !important;
+  position: fixed !important;
+  top: 0 !important;
+  z-index: 9999 !important;
+}
+
+#nprogress .peg {
+  box-shadow: 0 0 10px hsl(213.1 90.5% 56.1%), 0 0 5px hsl(213.1 90.5% 56.1%) !important;
+}
+
+#nprogress .spinner {
+  display: none !important;
 }

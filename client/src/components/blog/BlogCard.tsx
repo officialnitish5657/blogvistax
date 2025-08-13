@@ -7,7 +7,8 @@ interface BlogCardProps {
 }
 
 export default function BlogCard({ blog }: BlogCardProps) {
-  const formatDate = (date: Date) => {
+  const formatDate = (date: Date | null) => {
+    if (!date) return "No date";
     return new Date(date).toLocaleDateString("en-US", {
       year: "numeric",
       month: "short",

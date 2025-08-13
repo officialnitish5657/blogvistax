@@ -106,7 +106,7 @@ export default function Admin() {
       excerpt: blog.excerpt,
       category: blog.category,
       imageUrl: blog.imageUrl || "",
-      published: blog.published,
+      published: blog.published || false,
     });
     setIsModalOpen(true);
   };
@@ -126,7 +126,8 @@ export default function Admin() {
     }
   };
 
-  const formatDate = (date: Date) => {
+  const formatDate = (date: Date | null) => {
+    if (!date) return "No date";
     return new Date(date).toLocaleDateString("en-US", {
       year: "numeric",
       month: "short",
@@ -221,7 +222,7 @@ export default function Admin() {
                   <Input
                     id="imageUrl"
                     name="imageUrl"
-                    value={formData.imageUrl}
+                    value={formData.imageUrl || ""}
                     onChange={handleInputChange}
                     placeholder="https://example.com/image.jpg"
                     data-testid="blog-image-input"

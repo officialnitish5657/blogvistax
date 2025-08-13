@@ -1,0 +1,167 @@
+on an Ubuntu VPS
+"Learn how to deploy a Next.js application in a production environment on an Ubuntu VPS with this comprehensive guide. Follow step-by-step instructions to set up NGINX, PM2, and configure your Next.js app for seamless hosting."
+
+By CodeWithHarry
+
+Updated: 5 April 2025
+
+In this guide, we'll walk through the process of hosting a Next.js app in production using NGINX and PM2. Follow these steps to get your Next.js app up and running smoothly.
+
+If your application uses MongoDB, you can install it from here.
+
+Step 1: Installing Necessary Packages
+First, let's ensure our server has the required packages installed. Open a terminal and run the following commands:
+
+Update APT:
+
+apt update
+
+Install Nginx:
+
+apt install nginx -y
+
+This command installs Nginx web server.
+
+Setup Node.js 21.x repository:
+
+curl -fsSL https://deb.nodesource.com/setup_21.x | sudo -E bash -
+
+This command downloads and runs the script to add the Node.js 21.x repository to your system.
+
+Install Node.js:
+
+sudo apt-get install -y nodejs
+
+This command installs Node.js using the newly added repository.
+
+Install PM2 globally:
+
+npm install -g pm2
+
+This command installs PM2 process manager globally using npm.
+
+Step 2: Setting Up Next.js App
+Now, let's prepare our Next.js app. Navigate to your project directory and execute the following commands:
+
+npm install
+npm run build
+npm run start
+
+Step 3: Configuring NGINX
+Create this directory for storing access and error logs:
+
+mkdir -p /opt/nextjs/logs/
+
+Create a new NGINX configuration file for your Next.js app. Open a text editor and paste the following configuration:
+
+# /etc/nginx/sites-available/nextjs-example.willandskill.eu
+ 
+server {
+    server_name getmeachai.com;
+    access_log /opt/nextjs/logs/access.log;
+    error_log /opt/nextjs/logs/error.log error;
+ 
+    location /_next/ {
+        alias /home/getmeachai/.next/;
+        expires 30d;
+        access_log on;
+    }
+ 
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+
+Step 4: Configuring PM2
+Create an ecosystem configuration file for PM2. Open a text editor and paste the following configuration:
+
+// ecosystem.config.js
+ 
+module.exports = {
+  apps: [
+    {
+      name: 'my-nextjs-app',
+      script: 'node_modules/.bin/next',
+      args: 'start',
+      cwd: '/home/getmeachai',
+      instances: 1,
+      autorestart: true,
+      watch: false,
+      max_memory_restart: '1G',
+      env: {
+        NODE_ENV: 'production',
+        PORT: 3000,
+        GITHUB_ID: "99aae2c73fc53d196807",
+        GITHUB_SECRET: "55c88cefb1ec80c6b1697811f6ff1e287d554249",
+        NEXT_PUBLIC_URL: "http://getmeachai.com",
+        NEXTAUTH_URL: "http://getmeachai.com",
+        NEXTAUTH_SECRET: "sdf",
+        MONGO_URI: "mongodb://localhost:27017/chai",
+      },
+      env_production: {
+        NODE_ENV: 'production'
+      }
+    }
+  ]
+};
+
+Step 5: Starting PM2
+Start your Next.js app using PM2 by running the following command in your project directory:
+
+pm2 start ecosystem.config.js
+
+[Optional] Using Certbot for HTTPS
+Securing your Next.js application with HTTPS is crucial for protecting sensitive data and ensuring user trust. Certbot is a widely used tool for obtaining and managing SSL/TLS certificates from the Let's Encrypt Certificate Authority. Follow these steps to set up HTTPS for your Next.js app using Certbot:
+
+Step 1: Install Certbot
+sudo apt update
+sudo apt install python3-certbot-nginx
+
+Step 2: Obtain SSL Certificate
+sudo certbot --nginx -d getmeachai.com
+
+Follow the prompts to provide an email address for renewal reminders and agree to the terms of service. Certbot will handle the certificate issuance and configuration for NGINX.
+
+Step 3: Verify HTTPS Configuration
+sudo nginx -t
+
+If the test is successful, reload NGINX to apply the changes:
+
+sudo systemctl reload nginx
+
+Step 4: Automate Certificate Renewal
+sudo systemctl enable certbot.timer
+
+This command ensures that Certbot will renew your certificates automatically when they are about to expire.
+
+Step 5: Verify Renewal
+sudo certbot renew --dry-run
+
+If the dry run completes without errors, you're all set. Certbot will handle certificate renewal automatically when necessary.
+
+Step 6: Test HTTPS Connection
+Finally, test your Next.js application over HTTPS to ensure that everything is working correctly. You can do this by navigating to your domain in a web browser and verifying that the connection is secure.
+
+By following these steps, you can secure your Next.js application with HTTPS using Certbot, enhancing security and trust for your users.
+
+Conclusion
+Your Next.js app is now ready and running in production! NGINX is serving as a reverse proxy, forwarding requests to your Next.js server, and PM2 is ensuring your app stays up and running.
+
+By following these steps and configurations, you can successfully deploy and host your Next.js application in a production environment. Happy coding!
+
+Tags
+hosting
+a
+next.js
+app
+in
+production
+on
+ubuntu
+vps
+Share
