@@ -5,7 +5,7 @@ import type { Blog } from "@shared/schema";
 
 export default function Blog() {
   const { data: blogs, isLoading } = useQuery<Blog[]>({
-    queryKey: ["/api/blogs", { published: true }],
+    queryKey: ["/api/blogs?published=true"],
   });
 
   return (

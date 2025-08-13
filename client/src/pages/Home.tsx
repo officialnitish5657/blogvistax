@@ -6,7 +6,7 @@ import type { Blog } from "@shared/schema";
 
 export default function Home() {
   const { data: blogs, isLoading } = useQuery<Blog[]>({
-    queryKey: ["/api/blogs", { published: true }],
+    queryKey: ["/api/blogs?published=true"],
   });
 
   const latestBlogs = blogs?.slice(0, 3) || [];

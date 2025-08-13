@@ -7,7 +7,7 @@ export default function BlogDetail() {
   const { id } = useParams<{ id: string }>();
   
   const { data: blog, isLoading, error } = useQuery<Blog>({
-    queryKey: ["/api/blogs", id],
+    queryKey: [`/api/blogs/${id}`],
     enabled: !!id,
   });
 
