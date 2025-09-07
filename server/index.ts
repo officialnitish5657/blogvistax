@@ -77,11 +77,11 @@ app.use(express.json());
 
 // import cors from "cors";
 
-app.use(cors({
-  origin: "https://modernblogx.web.app", // only allow this origin
-  methods: ["GET", "POST", "PUT", "DELETE"], // customize if needed
-  credentials: true, // optional, only if you're using cookies or auth
-}));
+// app.use(cors({
+//   origin: "https://modernblogx.web.app", // only allow this origin
+//   methods: ["GET", "POST", "PUT", "DELETE"], // customize if needed
+//   credentials: true, // optional, only if you're using cookies or auth
+// }));
 
 
 const PORT = process.env.PORT || 5000;
