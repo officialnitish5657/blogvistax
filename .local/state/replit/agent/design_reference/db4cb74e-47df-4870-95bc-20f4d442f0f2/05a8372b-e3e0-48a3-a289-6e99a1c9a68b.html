@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Blog Platform - React Router Demo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'inter': ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#2563EB',
+                        secondary: '#64748B',
+                        accent: '#F59E0B',
+                    }
+                }
+            }
+        };
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="font-inter bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+    <!-- @COMPONENT: Navbar -->
+    <nav class="bg-white shadow-sm border-b border-slate-200 sticky top-0 z-50" data-mock="true">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0">
+                    <a href="#" class="text-2xl font-bold text-primary" data-bind="company.name">TechBlog</a>
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#home" class="text-slate-900 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 border-b-2 border-primary" data-event="click:navigate">Home</a>
+                        <a href="#blog" class="text-slate-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200" data-event="click:navigate">Blog</a>
+                        <a href="#about" class="text-slate-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200" data-event="click:navigate">About</a>
+                        <a href="#contact" class="text-slate-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200" data-event="click:navigate">Contact</a>
+                        <a href="#admin" class="text-slate-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200" data-event="click:navigate">Admin</a>
+                    </div>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button type="button" class="text-slate-600 hover:text-primary p-2" data-event="click:toggleMobileMenu" data-implementation="Toggle mobile menu visibility">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Navigation -->
+        <div class="md:hidden hidden" id="mobile-menu" data-mock="true">
+            <div class="px-2 pt-2 pb-3 space-y-1 bg-white border-t border-slate-200">
+                <a href="#home" class="text-slate-900 block px-3 py-2 rounded-md text-base font-medium" data-event="click:navigate">Home</a>
+                <a href="#blog" class="text-slate-600 hover:text-primary block px-3 py-2 rounded-md text-base font-medium" data-event="click:navigate">Blog</a>
+                <a href="#about" class="text-slate-600 hover:text-primary block px-3 py-2 rounded-md text-base font-medium" data-event="click:navigate">About</a>
+                <a href="#contact" class="text-slate-600 hover:text-primary block px-3 py-2 rounded-md text-base font-medium" data-event="click:navigate">Contact</a>
+                <a href="#admin" class="text-slate-600 hover:text-primary block px-3 py-2 rounded-md text-base font-medium" data-event="click:navigate">Admin</a>
+            </div>
+        </div>
+    </nav>
+    <!-- @END_COMPONENT: Navbar -->
+
+    <!-- Main Content Area -->
+    <main class="flex-grow">
+        <!-- HOME PAGE -->
+        <div id="home-page" class="page-content" data-mock="true">
+            <!-- @COMPONENT: HeroSection -->
+            <section class="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white py-20 lg:py-32">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="grid lg:grid-cols-2 gap-12 items-center">
+                        <div class="space-y-8">
+                            <h1 class="text-4xl lg:text-6xl font-bold leading-tight" data-bind="hero.headline">
+                                Insights That <span class="text-accent">Transform</span> Your Business
+                            </h1>
+                            <p class="text-xl text-slate-300 leading-relaxed" data-bind="hero.description">
+                                Discover cutting-edge strategies, industry insights, and practical advice from leading experts in technology, business, and innovation.
+                            </p>
+                            <div class="flex flex-col sm:flex-row gap-4">
+                                <button class="bg-primary hover:bg-blue-700 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-colors duration-200 shadow-lg" data-event="click:scrollToBlogs">
+                                    Explore Articles
+                                </button>
+                                <button class="border-2 border-white text-white hover:bg-white hover:text-slate-900 px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-200" data-event="click:navigate" data-target="/about">
+                                    Learn More
+                                </button>
+                            </div>
+                        </div>
+                        <div class="hidden lg:block">
+                            <!-- A modern workspace with multiple monitors showing data analytics and charts -->
+                            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600" alt="Modern workspace with analytics dashboards" class="rounded-xl shadow-2xl w-full h-auto transform hover:scale-105 transition-transform duration-300" />
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- @END_COMPONENT: HeroSection -->
+
+            <!-- @COMPONENT: LatestBlogsSection -->
+            <section class="py-20 bg-white">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center mb-16">
+                        <h2 class="text-3xl lg:text-4xl font-bold text-slate-900 mb-4">Latest Insights</h2>
+                        <p class="text-xl text-slate-600 max-w-3xl mx-auto">Stay ahead of the curve with our latest articles on technology trends, business strategies, and industry innovations.</p>
+                    </div>
+                    
+                    <!-- @MAP: latestBlogs.map(blog => ( -->
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!-- Blog Card 1 -->
+                        <article class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 border border-slate-200" data-mock="true">
+                            <!-- A professional team collaborating around a conference table with laptops and documents -->
+                            <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250" alt="Team collaboration in modern office" class="w-full h-48 object-cover" />
+                            <div class="p-6">
+                                <div class="flex items-center mb-3">
+                                    <span class="bg-primary/10 text-primary text-sm font-medium px-3 py-1 rounded-full" data-bind="blog.category">Strategy</span>
+                                    <span class="text-slate-500 text-sm ml-auto" data-bind="blog.date">Nov 15, 2024</span>
+                                </div>
+                                <h3 class="text-xl font-bold text-slate-900 mb-3 hover:text-primary transition-colors duration-200" data-bind="blog.title">
+                                    The Future of Remote Team Collaboration
+                                </h3>
+                                <p class="text-slate-600 mb-4 line-clamp-3" data-bind="blog.excerpt">
+                                    Explore how modern teams are leveraging technology to create seamless collaborative experiences across distributed workforces...
+                                </p>
+                                <button class="text-primary font-semibold hover:text-blue-700 transition-colors duration-200 flex items-center group" data-event="click:navigateToBlog" data-blog-id="1">
+                                    Read More <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform duration-200"></i>
+                                </button>
+                            </div>
+                        </article>
+
+                        <!-- Blog Card 2 -->
+                        <article class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 border border-slate-200" data-mock="true">
+                            <!-- A sleek modern office space with glass walls and contemporary furniture -->
+                            <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250" alt="Modern office workspace design" class="w-full h-48 object-cover" />
+                            <div class="p-6">
+                                <div class="flex items-center mb-3">
+                                    <span class="bg-accent/10 text-accent text-sm font-medium px-3 py-1 rounded-full" data-bind="blog.category">Technology</span>
+                                    <span class="text-slate-500 text-sm ml-auto" data-bind="blog.date">Nov 12, 2024</span>
+                                </div>
+                                <h3 class="text-xl font-bold text-slate-900 mb-3 hover:text-primary transition-colors duration-200" data-bind="blog.title">
+                                    AI-Powered Business Intelligence Trends
+                                </h3>
+                                <p class="text-slate-600 mb-4 line-clamp-3" data-bind="blog.excerpt">
+                                    Discover how artificial intelligence is revolutionizing data analysis and decision-making processes in modern enterprises...
+                                </p>
+                                <button class="text-primary font-semibold hover:text-blue-700 transition-colors duration-200 flex items-center group" data-event="click:navigateToBlog" data-blog-id="2">
+                                    Read More <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform duration-200"></i>
+                                </button>
+                            </div>
+                        </article>
+
+                        <!-- Blog Card 3 -->
+                        <article class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 border border-slate-200" data-mock="true">
+                            <!-- A diverse team of professionals working together on laptops in a bright office space -->
+                            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250" alt="Diverse team collaborating on laptops" class="w-full h-48 object-cover" />
+                            <div class="p-6">
+                                <div class="flex items-center mb-3">
+                                    <span class="bg-emerald-100 text-emerald-700 text-sm font-medium px-3 py-1 rounded-full" data-bind="blog.category">Leadership</span>
+                                    <span class="text-slate-500 text-sm ml-auto" data-bind="blog.date">Nov 10, 2024</span>
+                                </div>
+                                <h3 class="text-xl font-bold text-slate-900 mb-3 hover:text-primary transition-colors duration-200" data-bind="blog.title">
+                                    Building High-Performance Teams
+                                </h3>
+                                <p class="text-slate-600 mb-4 line-clamp-3" data-bind="blog.excerpt">
+                                    Learn the essential strategies for creating and maintaining teams that consistently deliver exceptional results...
+                                </p>
+                                <button class="text-primary font-semibold hover:text-blue-700 transition-colors duration-200 flex items-center group" data-event="click:navigateToBlog" data-blog-id="3">
+                                    Read More <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform duration-200"></i>
+                                </button>
+                            </div>
+                        </article>
+                    </div>
+                    <!-- @END_MAP )) -->
+
+                    <div class="text-center mt-12">
+                        <button class="bg-slate-900 hover:bg-slate-800 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-colors duration-200" data-event="click:navigate" data-target="/blog">
+                            View All Articles
+                        </button>
+                    </div>
+                </div>
+            </section>
+            <!-- @END_COMPONENT: LatestBlogsSection -->
+        </div>
+
+        <!-- BLOG LISTING PAGE -->
+        <div id="blog-page" class="page-content hidden" data-mock="true">
+            <!-- @COMPONENT: BlogListingPage -->
+            <section class="py-20 bg-slate-50 min-h-screen">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center mb-16">
+                        <h1 class="text-4xl lg:text-5xl font-bold text-slate-900 mb-4">Our Blog</h1>
+                        <p class="text-xl text-slate-600 max-w-3xl mx-auto">Insights, strategies, and thought leadership from industry experts</p>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!-- Additional blog cards would be mapped here -->
+                        <!-- @MAP: allBlogs.map(blog => ( -->
+                        <article class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 border border-slate-200" data-mock="true">
+                            <!-- A modern office building with glass facade reflecting the sky -->
+                            <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250" alt="Modern office building exterior" class="w-full h-48 object-cover" />
+                            <div class="p-6">
+                                <div class="flex items-center mb-3">
+                                    <span class="bg-purple-100 text-purple-700 text-sm font-medium px-3 py-1 rounded-full" data-bind="blog.category">Innovation</span>
+                                    <span class="text-slate-500 text-sm ml-auto" data-bind="blog.date">Nov 8, 2024</span>
+                                </div>
+                                <h3 class="text-xl font-bold text-slate-900 mb-3 hover:text-primary transition-colors duration-200" data-bind="blog.title">
+                                    Digital Transformation Best Practices
+                                </h3>
+                                <p class="text-slate-600 mb-4" data-bind="blog.excerpt">
+                                    A comprehensive guide to implementing successful digital transformation initiatives in enterprise environments...
+                                </p>
+                                <button class="text-primary font-semibold hover:text-blue-700 transition-colors duration-200 flex items-center group" data-event="click:navigateToBlog" data-blog-id="4">
+                                    Read More <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform duration-200"></i>
+                                </button>
+                            </div>
+                        </article>
+                        <!-- @END_MAP )) -->
+                    </div>
+                </div>
+            </section>
+            <!-- @END_COMPONENT: BlogListingPage -->
+        </div>
+
+        <!-- BLOG DETAIL PAGE -->
+        <div id="blog-detail-page" class="page-content hidden" data-mock="true">
+            <!-- @COMPONENT: BlogDetailPage -->
+            <article class="py-12 bg-white min-h-screen">
+                <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <!-- Back button -->
+                    <button class="text-primary hover:text-blue-700 font-medium mb-8 flex items-center transition-colors duration-200" data-event="click:goBack">
+                        <i class="fas fa-arrow-left mr-2"></i> Back to Blog
+                    </button>
+
+                    <!-- Article header -->
+                    <header class="mb-12">
+                        <div class="flex items-center mb-4">
+                            <span class="bg-primary/10 text-primary text-sm font-medium px-3 py-1 rounded-full" data-bind="blogDetail.category">Strategy</span>
+                            <span class="text-slate-500 text-sm ml-4" data-bind="blogDetail.date">November 15, 2024</span>
+                        </div>
+                        <h1 class="text-4xl lg:text-5xl font-bold text-slate-900 leading-tight mb-6" data-bind="blogDetail.title">
+                            The Future of Remote Team Collaboration
+                        </h1>
+                        <p class="text-xl text-slate-600 leading-relaxed" data-bind="blogDetail.subtitle">
+                            Explore how modern teams are leveraging technology to create seamless collaborative experiences across distributed workforces
+                        </p>
+                    </header>
+
+                    <!-- Featured image -->
+                    <!-- A panoramic view of a modern office space with multiple teams working collaboratively -->
+                    <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=600" alt="Team collaboration in modern office space" class="w-full h-96 object-cover rounded-xl shadow-lg mb-12" />
+
+                    <!-- Article content -->
+                    <div class="prose prose-lg prose-slate max-w-none" data-bind="blogDetail.content">
+                        <p class="text-slate-700 leading-relaxed mb-6">
+                            The landscape of work has fundamentally changed. What once required physical presence and face-to-face meetings has evolved into a sophisticated ecosystem of digital collaboration tools and remote-first methodologies.
+                        </p>
+                        
+                        <h2 class="text-2xl font-bold text-slate-900 mt-12 mb-6">The Evolution of Remote Collaboration</h2>
+                        <p class="text-slate-700 leading-relaxed mb-6">
+                            Remote collaboration has moved beyond simple video calls and shared documents. Today's teams leverage advanced project management platforms, real-time collaborative editing tools, and sophisticated communication channels that enable seamless workflow integration.
+                        </p>
+
+                        <h2 class="text-2xl font-bold text-slate-900 mt-12 mb-6">Key Technologies Driving Change</h2>
+                        <ul class="text-slate-700 space-y-3 mb-6">
+                            <li>Cloud-based project management systems</li>
+                            <li>Real-time collaborative documentation platforms</li>
+                            <li>Advanced video conferencing with screen sharing capabilities</li>
+                            <li>Integrated communication channels (Slack, Microsoft Teams)</li>
+                            <li>Virtual whiteboarding and brainstorming tools</li>
+                        </ul>
+
+                        <p class="text-slate-700 leading-relaxed mb-6">
+                            These technologies have created new possibilities for distributed teams to maintain productivity levels that often exceed those of traditional office environments.
+                        </p>
+
+                        <h2 class="text-2xl font-bold text-slate-900 mt-12 mb-6">Best Practices for Remote Team Success</h2>
+                        <p class="text-slate-700 leading-relaxed mb-6">
+                            Successful remote collaboration requires intentional strategy and clear communication protocols. Teams that thrive in remote environments establish regular check-ins, maintain transparent project tracking, and invest in quality collaboration tools.
+                        </p>
+                    </div>
+
+                    <!-- Author info -->
+                    <div class="border-t border-slate-200 pt-8 mt-12">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-16 h-16 bg-slate-200 rounded-full flex items-center justify-center">
+                                <i class="fas fa-user text-slate-500 text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-slate-900" data-bind="author.name">Sarah Johnson</h4>
+                                <p class="text-slate-600" data-bind="author.title">Senior Strategy Consultant</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+            <!-- @END_COMPONENT: BlogDetailPage -->
+        </div>
+
+        <!-- ABOUT PAGE -->
+        <div id="about-page" class="page-content hidden" data-mock="true">
+            <!-- @COMPONENT: AboutPage -->
+            <section class="py-20 bg-white min-h-screen">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <!-- Hero Section -->
+                    <div class="text-center mb-20">
+                        <h1 class="text-4xl lg:text-5xl font-bold text-slate-900 mb-6">About TechBlog</h1>
+                        <p class="text-xl text-slate-600 max-w-3xl mx-auto">
+                            We're passionate about sharing insights that drive innovation and transform businesses across industries.
+                        </p>
+                    </div>
+
+                    <!-- Mission Section -->
+                    <div class="grid lg:grid-cols-2 gap-16 items-center mb-20">
+                        <div>
+                            <h2 class="text-3xl font-bold text-slate-900 mb-6">Our Mission</h2>
+                            <p class="text-slate-700 leading-relaxed mb-6">
+                                At TechBlog, we believe that knowledge should be accessible, actionable, and transformative. Our mission is to bridge the gap between cutting-edge research and practical implementation.
+                            </p>
+                            <p class="text-slate-700 leading-relaxed">
+                                We curate insights from industry leaders, emerging technologies, and proven strategies to help professionals and organizations stay ahead in an rapidly evolving digital landscape.
+                            </p>
+                        </div>
+                        <div>
+                            <!-- A diverse group of professionals in a bright modern office brainstorming session -->
+                            <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400" alt="Diverse team brainstorming in modern office" class="rounded-xl shadow-lg w-full h-auto" />
+                        </div>
+                    </div>
+
+                    <!-- Values Section -->
+                    <div class="mb-20">
+                        <h2 class="text-3xl font-bold text-slate-900 text-center mb-12">Our Values</h2>
+                        <div class="grid md:grid-cols-3 gap-8">
+                            <div class="text-center p-6">
+                                <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <i class="fas fa-lightbulb text-primary text-2xl"></i>
+                                </div>
+                                <h3 class="text-xl font-semibold text-slate-900 mb-3">Innovation</h3>
+                                <p class="text-slate-600">We embrace new ideas and emerging technologies to drive meaningful change.</p>
+                            </div>
+                            <div class="text-center p-6">
+                                <div class="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <i class="fas fa-users text-accent text-2xl"></i>
+                                </div>
+                                <h3 class="text-xl font-semibold text-slate-900 mb-3">Collaboration</h3>
+                                <p class="text-slate-600">We believe in the power of diverse perspectives and shared knowledge.</p>
+                            </div>
+                            <div class="text-center p-6">
+                                <div class="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <i class="fas fa-target text-emerald-600 text-2xl"></i>
+                                </div>
+                                <h3 class="text-xl font-semibold text-slate-900 mb-3">Excellence</h3>
+                                <p class="text-slate-600">We strive for the highest quality in everything we create and share.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Team Section -->
+                    <div class="text-center">
+                        <h2 class="text-3xl font-bold text-slate-900 mb-12">Meet Our Team</h2>
+                        <div class="grid md:grid-cols-3 gap-8">
+                            <div class="text-center">
+                                <div class="w-32 h-32 bg-slate-200 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <i class="fas fa-user text-slate-500 text-4xl"></i>
+                                </div>
+                                <h3 class="text-xl font-semibold text-slate-900 mb-2">Sarah Johnson</h3>
+                                <p class="text-slate-600 mb-2">Editor-in-Chief</p>
+                                <p class="text-slate-500 text-sm">10+ years in tech journalism and strategy consulting</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-32 h-32 bg-slate-200 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <i class="fas fa-user text-slate-500 text-4xl"></i>
+                                </div>
+                                <h3 class="text-xl font-semibold text-slate-900 mb-2">Michael Chen</h3>
+                                <p class="text-slate-600 mb-2">Technology Writer</p>
+                                <p class="text-slate-500 text-sm">Former software engineer turned tech evangelist</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-32 h-32 bg-slate-200 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <i class="fas fa-user text-slate-500 text-4xl"></i>
+                                </div>
+                                <h3 class="text-xl font-semibold text-slate-900 mb-2">Emily Rodriguez</h3>
+                                <p class="text-slate-600 mb-2">Business Analyst</p>
+                                <p class="text-slate-500 text-sm">Expert in digital transformation and organizational change</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- @END_COMPONENT: AboutPage -->
+        </div>
+
+        <!-- CONTACT PAGE -->
+        <div id="contact-page" class="page-content hidden" data-mock="true">
+            <!-- @COMPONENT: ContactPage -->
+            <section class="py-20 bg-slate-50 min-h-screen">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center mb-16">
+                        <h1 class="text-4xl lg:text-5xl font-bold text-slate-900 mb-6">Get In Touch</h1>
+                        <p class="text-xl text-slate-600 max-w-3xl mx-auto">
+                            Have questions, feedback, or collaboration ideas? We'd love to hear from you.
+                        </p>
+                    </div>
+
+                    <div class="grid lg:grid-cols-2 gap-16">
+                        <!-- Contact Form -->
+                        <div class="bg-white rounded-xl shadow-lg p-8">
+                            <h2 class="text-2xl font-bold text-slate-900 mb-6">Send us a message</h2>
+                            <form class="space-y-6" data-event="submit:handleContactForm" data-implementation="Form validation and submission handling">
+                                <div>
+                                    <label for="name" class="block text-sm font-medium text-slate-700 mb-2">Full Name</label>
+                                    <input type="text" id="name" name="name" required 
+                                           class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors duration-200" 
+                                           placeholder="Your full name" data-mock="true">
+                                </div>
+                                <div>
+                                    <label for="email" class="block text-sm font-medium text-slate-700 mb-2">Email Address</label>
+                                    <input type="email" id="email" name="email" required 
+                                           class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors duration-200" 
+                                           placeholder="your.email@example.com" data-mock="true">
+                                </div>
+                                <div>
+                                    <label for="subject" class="block text-sm font-medium text-slate-700 mb-2">Subject</label>
+                                    <input type="text" id="subject" name="subject" 
+                                           class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors duration-200" 
+                                           placeholder="How can we help?" data-mock="true">
+                                </div>
+                                <div>
+                                    <label for="message" class="block text-sm font-medium text-slate-700 mb-2">Message</label>
+                                    <textarea id="message" name="message" rows="6" required 
+                                              class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors duration-200 resize-none" 
+                                              placeholder="Tell us more about your inquiry..." data-mock="true"></textarea>
+                                </div>
+                                <button type="submit" class="w-full bg-primary hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 shadow-lg">
+                                    Send Message
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Contact Information -->
+                        <div class="space-y-8">
+                            <div class="bg-white rounded-xl shadow-lg p-8">
+                                <h2 class="text-2xl font-bold text-slate-900 mb-6">Contact Information</h2>
+                                <div class="space-y-6">
+                                    <div class="flex items-start space-x-4">
+                                        <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                                            <i class="fas fa-map-marker-alt text-primary"></i>
+                                        </div>
+                                        <div>
+                                            <h3 class="font-semibold text-slate-900 mb-1">Address</h3>
+                                            <p class="text-slate-600">123 Innovation Drive<br>Tech City, CA 94025</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-4">
+                                        <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                                            <i class="fas fa-phone text-primary"></i>
+                                        </div>
+                                        <div>
+                                            <h3 class="font-semibold text-slate-900 mb-1">Phone</h3>
+                                            <p class="text-slate-600">+1 (555) 123-4567</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-4">
+                                        <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                                            <i class="fas fa-envelope text-primary"></i>
+                                        </div>
+                                        <div>
+                                            <h3 class="font-semibold text-slate-900 mb-1">Email</h3>
+                                            <p class="text-slate-600">hello@techblog.com</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white rounded-xl shadow-lg p-8">
+                                <h2 class="text-2xl font-bold text-slate-900 mb-6">Follow Us</h2>
+                                <div class="flex space-x-4">
+                                    <a href="#" class="w-12 h-12 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center justify-center transition-colors duration-200" data-event="click:openSocial">
+                                        <i class="fab fa-twitter"></i>
+                                    </a>
+                                    <a href="#" class="w-12 h-12 bg-blue-800 hover:bg-blue-900 text-white rounded-lg flex items-center justify-center transition-colors duration-200" data-event="click:openSocial">
+                                        <i class="fab fa-linkedin"></i>
+                                    </a>
+                                    <a href="#" class="w-12 h-12 bg-slate-800 hover:bg-slate-900 text-white rounded-lg flex items-center justify-center transition-colors duration-200" data-event="click:openSocial">
+                                        <i class="fab fa-github"></i>
+                                    </a>
+                                    <a href="#" class="w-12 h-12 bg-slate-600 hover:bg-slate-700 text-white rounded-lg flex items-center justify-center transition-colors duration-200" data-event="click:openSocial">
+                                        <i class="fas fa-rss"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- @END_COMPONENT: ContactPage -->
+        </div>
+
+        <!-- ADMIN PAGE -->
+        <div id="admin-page" class="page-content hidden" data-mock="true">
+            <!-- @COMPONENT: AdminPage -->
+            <!-- @STATE: blogs:array = [], editingBlog:object = null, showModal:boolean = false -->
+            <section class="py-20 bg-slate-50 min-h-screen">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex justify-between items-center mb-12">
+                        <h1 class="text-4xl font-bold text-slate-900">Admin Dashboard</h1>
+                        <button class="bg-primary hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors duration-200 flex items-center" 
+                                data-event="click:openAddBlogModal" data-implementation="Open modal for adding new blog post">
+                            <i class="fas fa-plus mr-2"></i> Add New Post
+                        </button>
+                    </div>
+
+                    <!-- Stats Cards -->
+                    <div class="grid md:grid-cols-4 gap-6 mb-12">
+                        <div class="bg-white rounded-xl shadow-lg p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-slate-600 text-sm">Total Posts</p>
+                                    <p class="text-3xl font-bold text-slate-900" data-bind="stats.totalPosts">24</p>
+                                </div>
+                                <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-file-alt text-primary"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-xl shadow-lg p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-slate-600 text-sm">Published</p>
+                                    <p class="text-3xl font-bold text-slate-900" data-bind="stats.published">18</p>
+                                </div>
+                                <div class="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-check-circle text-emerald-600"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-xl shadow-lg p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-slate-600 text-sm">Drafts</p>
+                                    <p class="text-3xl font-bold text-slate-900" data-bind="stats.drafts">6</p>
+                                </div>
+                                <div class="w-12 h-12 bg-amber-100 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-edit text-amber-600"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-xl shadow-lg p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-slate-600 text-sm">Views</p>
+                                    <p class="text-3xl font-bold text-slate-900" data-bind="stats.views">1,234</p>
+                                </div>
+                                <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-eye text-purple-600"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Blog Posts Table -->
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                        <div class="px-6 py-4 border-b border-slate-200">
+                            <h2 class="text-xl font-semibold text-slate-900">Manage Posts</h2>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead class="bg-slate-50">
+                                    <tr>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Title</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Category</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Status</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Date</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-slate-200">
+                                    <!-- @MAP: blogs.map(blog => ( -->
+                                    <tr data-mock="true">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm font-medium text-slate-900" data-bind="blog.title">The Future of Remote Team Collaboration</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-primary/10 text-primary" data-bind="blog.category">Strategy</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-emerald-100 text-emerald-800" data-bind="blog.status">Published</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500" data-bind="blog.date">Nov 15, 2024</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-3">
+                                            <button class="text-primary hover:text-blue-700 transition-colors duration-200" data-event="click:editBlog" data-implementation="Open edit modal with blog data">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="text-red-600 hover:text-red-700 transition-colors duration-200" data-event="click:deleteBlog" data-implementation="Show confirmation dialog before deletion">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr data-mock="true">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm font-medium text-slate-900" data-bind="blog.title">AI-Powered Business Intelligence Trends</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-accent/10 text-accent" data-bind="blog.category">Technology</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-emerald-100 text-emerald-800" data-bind="blog.status">Published</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500" data-bind="blog.date">Nov 12, 2024</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-3">
+                                            <button class="text-primary hover:text-blue-700 transition-colors duration-200" data-event="click:editBlog">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="text-red-600 hover:text-red-700 transition-colors duration-200" data-event="click:deleteBlog">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <!-- @END_MAP )) -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Add/Edit Blog Modal (Hidden by default) -->
+                    <div id="blog-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden" data-mock="true">
+                        <div class="bg-white rounded-xl shadow-2xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+                            <div class="px-6 py-4 border-b border-slate-200 flex justify-between items-center">
+                                <h3 class="text-xl font-semibold text-slate-900" data-bind="modal.title">Add New Blog Post</h3>
+                                <button class="text-slate-400 hover:text-slate-600 transition-colors duration-200" data-event="click:closeModal">
+                                    <i class="fas fa-times text-xl"></i>
+                                </button>
+                            </div>
+                            <form class="p-6 space-y-6" data-event="submit:saveBlog" data-implementation="Save blog to state array">
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-2">Title</label>
+                                    <input type="text" class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors duration-200" placeholder="Enter blog title" data-mock="true">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-2">Category</label>
+                                    <select class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors duration-200" data-mock="true">
+                                        <option>Strategy</option>
+                                        <option>Technology</option>
+                                        <option>Leadership</option>
+                                        <option>Innovation</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-2">Content</label>
+                                    <textarea rows="8" class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors duration-200 resize-none" placeholder="Write your blog content..." data-mock="true"></textarea>
+                                </div>
+                                <div class="flex justify-end space-x-4">
+                                    <button type="button" class="px-6 py-3 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors duration-200" data-event="click:closeModal">
+                                        Cancel
+                                    </button>
+                                    <button type="submit" class="px-6 py-3 bg-primary hover:bg-blue-700 text-white rounded-lg transition-colors duration-200">
+                                        Save Post
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- @END_COMPONENT: AdminPage -->
+        </div>
+    </main>
+
+    <!-- @COMPONENT: Footer -->
+    <footer class="bg-slate-900 text-white py-16" data-mock="true">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <!-- Company Info -->
+                <div class="space-y-4">
+                    <h3 class="text-2xl font-bold" data-bind="company.name">TechBlog</h3>
+                    <p class="text-slate-300">
+                        Insights that transform your business. Stay ahead with cutting-edge strategies and industry expertise.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-slate-300 hover:text-white transition-colors duration-200" data-event="click:openSocial">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                        <a href="#" class="text-slate-300 hover:text-white transition-colors duration-200" data-event="click:openSocial">
+                            <i class="fab fa-linkedin text-xl"></i>
+                        </a>
+                        <a href="#" class="text-slate-300 hover:text-white transition-colors duration-200" data-event="click:openSocial">
+                            <i class="fab fa-github text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#home" class="text-slate-300 hover:text-white transition-colors duration-200" data-event="click:navigate">Home</a></li>
+                        <li><a href="#blog" class="text-slate-300 hover:text-white transition-colors duration-200" data-event="click:navigate">Blog</a></li>
+                        <li><a href="#about" class="text-slate-300 hover:text-white transition-colors duration-200" data-event="click:navigate">About</a></li>
+                        <li><a href="#contact" class="text-slate-300 hover:text-white transition-colors duration-200" data-event="click:navigate">Contact</a></li>
+                    </ul>
+                </div>
+
+                <!-- Categories -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Categories</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-slate-300 hover:text-white transition-colors duration-200" data-event="click:filterByCategory">Strategy</a></li>
+                        <li><a href="#" class="text-slate-300 hover:text-white transition-colors duration-200" data-event="click:filterByCategory">Technology</a></li>
+                        <li><a href="#" class="text-slate-300 hover:text-white transition-colors duration-200" data-event="click:filterByCategory">Leadership</a></li>
+                        <li><a href="#" class="text-slate-300 hover:text-white transition-colors duration-200" data-event="click:filterByCategory">Innovation</a></li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Stay Updated</h4>
+                    <p class="text-slate-300 mb-4">Subscribe to our newsletter for the latest insights.</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Your email" class="flex-1 px-4 py-2 rounded-l-lg border border-slate-600 bg-slate-800 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary" data-mock="true">
+                        <button class="bg-primary hover:bg-blue-700 px-4 py-2 rounded-r-lg transition-colors duration-200" data-event="click:subscribeNewsletter">
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="border-t border-slate-700 mt-12 pt-8 text-center">
+                <p class="text-slate-300">
+                    © 2024 TechBlog. All rights reserved. | 
+                    <a href="#" class="hover:text-white transition-colors duration-200">Privacy Policy</a> | 
+                    <a href="#" class="hover:text-white transition-colors duration-200">Terms of Service</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+    <!-- @END_COMPONENT: Footer -->
+
+    <script>
+        // TODO: Implement React Router navigation logic
+        // TODO: Implement blog state management
+        // TODO: Implement form validation and submission
+        
+        (function() {
+            // Simple page navigation simulation
+            const pages = ['home', 'blog', 'blog-detail', 'about', 'contact', 'admin'];
+            const navLinks = document.querySelectorAll('nav a, footer a');
+            
+            function showPage(pageId) {
+                pages.forEach(page => {
+                    const pageElement = document.getElementById(`${page}-page`);
+                    if (pageElement) {
+                        pageElement.classList.add('hidden');
+                    }
+                });
+                
+                const targetPage = document.getElementById(`${pageId}-page`);
+                if (targetPage) {
+                    targetPage.classList.remove('hidden');
+                    window.scrollTo(0, 0);
+                }
+                
+                // Update active nav link
+                navLinks.forEach(link => {
+                    link.classList.remove('border-b-2', 'border-primary', 'text-slate-900');
+                    link.classList.add('text-slate-600');
+                });
+                
+                const activeLink = document.querySelector(`a[href="#${pageId}"]`);
+                if (activeLink && activeLink.closest('nav')) {
+                    activeLink.classList.remove('text-slate-600');
+                    activeLink.classList.add('text-slate-900', 'border-b-2', 'border-primary');
+                }
+            }
+            
+            // Handle navigation clicks
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const href = link.getAttribute('href');
+                    if (href && href.startsWith('#')) {
+                        const pageId = href.substring(1);
+                        if (pages.includes(pageId)) {
+                            showPage(pageId);
+                        }
+                    }
+                });
+            });
+            
+            // Handle mobile menu toggle
+            const mobileMenuButton = document.querySelector('[data-event="click:toggleMobileMenu"]');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+            
+            // Handle blog card clicks
+            const blogCards = document.querySelectorAll('[data-event="click:navigateToBlog"]');
+            blogCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    showPage('blog-detail');
+                });
+            });
+            
+            // Handle admin modal
+            const addBlogButton = document.querySelector('[data-event="click:openAddBlogModal"]');
+            const blogModal = document.getElementById('blog-modal');
+            const closeModalButtons = document.querySelectorAll('[data-event="click:closeModal"]');
+            
+            if (addBlogButton && blogModal) {
+                addBlogButton.addEventListener('click', () => {
+                    blogModal.classList.remove('hidden');
+                });
+            }
+            
+            closeModalButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    if (blogModal) {
+                        blogModal.classList.add('hidden');
+                    }
+                });
+            });
+            
+            // Close modal on background click
+            if (blogModal) {
+                blogModal.addEventListener('click', (e) => {
+                    if (e.target === blogModal) {
+                        blogModal.classList.add('hidden');
+                    }
+                });
+            }
+            
+            // Show home page by default
+            showPage('home');
+        })();
+    </script>
+</body>
+</html>
